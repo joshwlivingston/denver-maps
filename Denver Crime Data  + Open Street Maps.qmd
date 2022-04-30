@@ -1,6 +1,6 @@
 ---
 title: "Denver Maps"
-format: github_document
+format: rmarkdown::github_document
 ---
 
 To create maps in R, you usually start with a shape file. This shape file can be downloaded from a data source, or it can be loaded using one of many R packages.
