@@ -143,7 +143,6 @@ Then we use the `data.table` package to clean the data.
 library(data.table)
 
 setDT(crime_shape)
-setDT(accident_shape)
 
 # filter to only crimes we want to look at
 crimes_of_interest <- 
@@ -163,16 +162,8 @@ filt_crimes <- filt_crimes[filt_crimes$GEO_LON < -100 & filt_crimes$GEO_LAT > 35
 # filter to recent years
 library(lubridate)
 YEAR_RECENT <- 2019
+filt_crimes[, occu_date := as_date(filt_crimes$FIRST_OCCU)]
 filt_crimes <- filt_crimes[year(filt_crimes$FIRST_OCCU) > YEAR_RECENT, ]
-```
-
-</div>
-
-<div class="cell">
-
-``` r
-# filter to recent traffic accidents
-filt_accident <- accident_shape[year(accident_shape$FIRST_OCCU) > YEAR_RECENT, ]
 ```
 
 </div>
@@ -190,6 +181,7 @@ ggplot() +
   geom_sf(data = layers$parks$osm_polygons, fill = '#94ba8e') +
   geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue') + 
   geom_sf(data = filt_crimes, alpha = 0.01, size = 1) +
+  geom_sf(data = accident_shape, alpha = 0.5, size = 1, color = "red") +
   coord_sf(
     xlim = xlim, 
     ylim = ylim,
@@ -200,7 +192,7 @@ ggplot() +
 
 <div class="cell-output-display">
 
-![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-6-1.png)
+![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-5-1.png)
 
 </div>
 
