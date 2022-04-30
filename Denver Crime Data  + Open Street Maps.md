@@ -1,3 +1,7 @@
+<div class="cell">
+
+</div>
+
 To create maps in R, you usually start with a shape file. This shape
 file can be downloaded from a data source, or it can be loaded using one
 of many R packages.
@@ -19,15 +23,7 @@ parks.
 
 ``` r
 library(osmdata)
-```
 
-<div class="cell-output-stderr">
-
-    Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
-
-</div>
-
-``` r
 # load base denver data
 xlim <- c(-105.06, -104.91)
 ylim <- c(39.63, 39.80)
@@ -101,15 +97,7 @@ package to load the shape file.
 
 ``` r
 library(sf)
-```
 
-<div class="cell-output-stderr">
-
-    Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
-
-</div>
-
-``` r
 # read crime data shape file from Denver gov
 crime_shape <- st_read("data/shapes/crime/crime.shp")
 ```
@@ -153,24 +141,7 @@ Then we use the `data.table` package to clean the data.
 
 ``` r
 library(data.table)
-```
 
-<div class="cell-output-stderr">
-
-
-    Attaching package: 'data.table'
-
-</div>
-
-<div class="cell-output-stderr">
-
-    The following object is masked from 'package:purrr':
-
-        transpose
-
-</div>
-
-``` r
 setDT(crime_shape)
 setDT(accident_shape)
 
@@ -191,44 +162,9 @@ filt_crimes <- filt_crimes[filt_crimes$GEO_LON < -100 & filt_crimes$GEO_LAT > 35
 
 # filter to recent years
 library(lubridate)
-```
-
-<div class="cell-output-stderr">
-
-
-    Attaching package: 'lubridate'
-
-</div>
-
-<div class="cell-output-stderr">
-
-    The following objects are masked from 'package:data.table':
-
-        hour, isoweek, mday, minute, month, quarter, second, wday, week,
-        yday, year
-
-</div>
-
-<div class="cell-output-stderr">
-
-    The following objects are masked from 'package:base':
-
-        date, intersect, setdiff, union
-
-</div>
-
-``` r
 YEAR_RECENT <- 2019
 filt_crimes <- filt_crimes[year(filt_crimes$FIRST_OCCU) > YEAR_RECENT, ]
 ```
-
-<div class="cell-output-stderr">
-
-    Warning: tz(): Don't know how to compute timezone for object of class NULL;
-    returning "UTC". This warning will become an error in the next major version of
-    lubridate.
-
-</div>
 
 </div>
 
@@ -238,14 +174,6 @@ filt_crimes <- filt_crimes[year(filt_crimes$FIRST_OCCU) > YEAR_RECENT, ]
 # filter to recent traffic accidents
 filt_accident <- accident_shape[year(accident_shape$FIRST_OCCU) > YEAR_RECENT, ]
 ```
-
-<div class="cell-output-stderr">
-
-    Warning: tz(): Don't know how to compute timezone for object of class NULL;
-    returning "UTC". This warning will become an error in the next major version of
-    lubridate.
-
-</div>
 
 </div>
 
@@ -261,8 +189,7 @@ ggplot() +
   geom_sf(data = layers$highways$osm_lines, color = '#ff9999', size = 1) + 
   geom_sf(data = layers$parks$osm_polygons, fill = '#94ba8e') +
   geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue') + 
-  geom_sf(data = filt_crimes, alpha = 0.01, size = 1, fill = "black") +
-  geom_sf(data = filt_accident, alpha = 0.01, size = 1, fill = "red") +
+  geom_sf(data = filt_crimes, alpha = 0.01, size = 1) +
   coord_sf(
     xlim = xlim, 
     ylim = ylim,
@@ -273,7 +200,7 @@ ggplot() +
 
 <div class="cell-output-display">
 
-![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-5-1.png)
+![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-6-1.png)
 
 </div>
 
