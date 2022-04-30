@@ -189,7 +189,9 @@ denver_map <-
 
 <br><br>
 
-Traffic Accidents: ::: {.cell}
+Traffic Accidents:
+
+<div class="cell">
 
 ``` r
 denver_map + 
@@ -204,13 +206,17 @@ denver_map +
 
 </div>
 
-::: <br><br>
+</div>
 
-Crime: ::: {.cell}
+<br><br>
+
+Crime:
+
+<div class="cell">
 
 ``` r
 denver_map + 
-  geom_sf(data = filt_crimes, alpha = 0.01, size = 1, color = "purple") +
+  geom_sf(data = filt_crimes, alpha = 0.025, size = 1, color = "purple") +
   coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
   theme_minimal() +
   labs(subtitle = paste0(crimes_of_interest, collapse = ", "))
@@ -222,4 +228,4 @@ denver_map +
 
 </div>
 
-:::
+</div>

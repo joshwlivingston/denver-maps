@@ -9,7 +9,6 @@ format: gfm
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
-
 To create maps in R, you usually start with a shape file. This shape file can be downloaded from a data source, or it can be loaded using one of many R packages.
 
 In this doc, we'll be using two downloaded shape files from the [Denver Open Data Catalog](https://www.denvergov.org/opendata/ "Denver Open Data Catalog"), overlayed on top of base map layers obtained from [OpenStreetMap](https://wiki.openstreetmap.org/wiki/Main_Page "OpenStreetMap")
@@ -136,24 +135,26 @@ denver_map <-
   geom_sf(data = layers$parks$osm_polygons, fill = '#94ba8e') +
   geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue')
 ```
+
 <br><br>
 
 Traffic Accidents:
+
 ```{r, fig.height=9, fig.width=9}
 denver_map + 
   geom_sf(data = accident_shape, alpha = 0.01, size = 1, color = "red") +
   coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
   theme_minimal()
 ```
+
 <br><br>
 
 Crime:
+
 ```{r, fig.height=9, fig.width=9}
 denver_map + 
-  geom_sf(data = filt_crimes, alpha = 0.01, size = 1, color = "purple") +
+  geom_sf(data = filt_crimes, alpha = 0.025, size = 1, color = "purple") +
   coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
   theme_minimal() +
   labs(subtitle = paste0(crimes_of_interest, collapse = ", "))
 ```
-
-
