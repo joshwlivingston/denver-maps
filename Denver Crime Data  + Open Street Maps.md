@@ -1,3 +1,5 @@
+# Denver Data Maps
+
 <div class="cell">
 
 </div>
@@ -174,26 +176,50 @@ Once our shape files are loaded, we can plot using `ggplot2`.
 
 ``` r
 library(ggplot2)
-ggplot() + 
+denver_map <- 
+  ggplot() + 
   aes(geometry = geometry) +
   geom_sf(data = layers$streets$osm_lines, size = 0.5, color = '#eedede') +
   geom_sf(data = layers$highways$osm_lines, color = '#ff9999', size = 1) + 
   geom_sf(data = layers$parks$osm_polygons, fill = '#94ba8e') +
-  geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue') + 
-  geom_sf(data = filt_crimes, alpha = 0.01, size = 1) +
-  geom_sf(data = accident_shape, alpha = 0.5, size = 1, color = "red") +
-  coord_sf(
-    xlim = xlim, 
-    ylim = ylim,
-    expand = FALSE
-  ) +
+  geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue')
+```
+
+</div>
+
+<br><br>
+
+Traffic Accidents: ::: {.cell}
+
+``` r
+denver_map + 
+  geom_sf(data = accident_shape, alpha = 0.01, size = 1, color = "red") +
+  coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
   theme_minimal()
 ```
 
 <div class="cell-output-display">
 
-![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-5-1.png)
+![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-6-1.png)
 
 </div>
 
+::: <br><br>
+
+Crime: ::: {.cell}
+
+``` r
+denver_map + 
+  geom_sf(data = filt_crimes, alpha = 0.01, size = 1, color = "purple") +
+  coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
+  theme_minimal() +
+  labs(subtitle = paste0(crimes_of_interest, collapse = ", "))
+```
+
+<div class="cell-output-display">
+
+![](Denver-Crime-Data--+-Open-Street-Maps_files/figure-gfm/unnamed-chunk-7-1.png)
+
 </div>
+
+:::

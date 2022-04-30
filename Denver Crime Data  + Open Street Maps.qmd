@@ -3,6 +3,8 @@ title: "Denver Maps"
 format: gfm
 ---
 
+# Denver Data Maps
+
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
@@ -126,18 +128,32 @@ Once our shape files are loaded, we can plot using `ggplot2`.
 
 ```{r, fig.height=9, fig.width=9}
 library(ggplot2)
-ggplot() + 
+denver_map <- 
+  ggplot() + 
   aes(geometry = geometry) +
   geom_sf(data = layers$streets$osm_lines, size = 0.5, color = '#eedede') +
   geom_sf(data = layers$highways$osm_lines, color = '#ff9999', size = 1) + 
   geom_sf(data = layers$parks$osm_polygons, fill = '#94ba8e') +
-  geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue') + 
-  geom_sf(data = filt_crimes, alpha = 0.01, size = 1) +
-  geom_sf(data = accident_shape, alpha = 0.5, size = 1, color = "red") +
-  coord_sf(
-    xlim = xlim, 
-    ylim = ylim,
-    expand = FALSE
-  ) +
+  geom_sf(data = layers$water$osm_multipolygons, fill = 'lightblue')
+```
+<br><br>
+
+Traffic Accidents:
+```{r, fig.height=9, fig.width=9}
+denver_map + 
+  geom_sf(data = accident_shape, alpha = 0.01, size = 1, color = "red") +
+  coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
   theme_minimal()
 ```
+<br><br>
+
+Crime:
+```{r, fig.height=9, fig.width=9}
+denver_map + 
+  geom_sf(data = filt_crimes, alpha = 0.01, size = 1, color = "purple") +
+  coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
+  theme_minimal() +
+  labs(subtitle = paste0(crimes_of_interest, collapse = ", "))
+```
+
+
